@@ -287,14 +287,16 @@ def compute_gradients(a, b, c, d, feat1, feat2, feat3, label):
 
 
 epochs = 1000
-learning_rate = 0.1
-a, b, c, d = 0.3, 0.1, 0.1, 1
+learning_rate = 0.08
+a, b, c, d = 0.5, 0.5, 0.5, 0.5
 log_loss_history_train = []
 log_loss_history_valid = []
 
 best_loss = float('inf')
 best_params = None
 epochs_since_best_loss = 0
+early_stopping_patience = 10
+early_stopping_epoch = None
 
 for epoch in range(epochs):
     grad_a, grad_b, grad_c, grad_d = compute_gradients(
@@ -313,6 +315,13 @@ for epoch in range(epochs):
         log_loss_history_train.append(log_loss_train)
         log_loss_history_valid.append(log_loss_valid)
 
+
+for i in range(99):
+    if ((log_loss_history_valid[i] < log_loss_history_valid[i+1]) and (log_loss_history_valid[i-1] < 0.5) and (log_loss_history_valid[i] < 0.5)):
+        early_stopping_epoch = i
+        best_loss = log_loss_history_valid[i]
+        break
+
 plt.figure(figsize=(10, 5))
 plt.plot(log_loss_history_train, label='Train Log Loss',
          linestyle='-', color='b')
@@ -320,12 +329,12 @@ plt.plot(log_loss_history_valid, label='Valid Log Loss',
          linestyle='-', color='g')
 plt.xlabel('Epochs')
 plt.ylabel('Log Loss')
-
-best_epoch = log_loss_history_valid.index(min(log_loss_history_valid))
-plt.axvline(x=best_epoch, color='r', linestyle='--',
-            label=f'Early Stopping (Epoch {best_epoch*10})')
+plt.axvline(x=early_stopping_epoch, color='r',
+            linestyle='--', label=f'Early Stopping {early_stopping_epoch*10}')
+print(best_loss)
 plt.legend()
 plt.show()
 
-# print(f"Best parameters: {best_params}")
-# print(f"Best validation log loss: {best_loss}")
+########### 2-4 ###########
+# 2)를 다시 수행하고 성능을 비교 평가하라.
+#########################
