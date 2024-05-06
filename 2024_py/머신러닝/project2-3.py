@@ -57,7 +57,6 @@ for i in range(n):
     f3_right_labels = label[f3_right_indices]
     f3_left_class_counts = np.bincount(f3_left_labels.astype(int))
     f3_right_class_counts = np.bincount(f3_right_labels.astype(int))
-    # print(f3_left_class_counts, f3_right_class_counts)
     f3_left_impurity = 1 - np.max(f3_left_class_counts) / len(f3_left_labels)
     f3_right_impurity = 1 - \
         np.max(f3_right_class_counts) / len(f3_right_labels)
@@ -90,5 +89,8 @@ else:
                          [feat2_min, feat2_max])
     zz = np.full_like(xx, feat3_div[split_feature])
     ax.plot_surface(xx, yy, zz, color='green', alpha=0.3)
-
 plt.show()
+predicted_labels = (
+    feat3 > impurity[split_feature][split_threshold]).astype(int)
+accuracy = np.mean(predicted_labels == label)
+print("Accuracy:", accuracy)
