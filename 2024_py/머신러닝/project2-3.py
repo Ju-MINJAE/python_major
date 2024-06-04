@@ -188,6 +188,9 @@ import matplotlib.pyplot as plt
 #     weights_left = sample_weights[left_indices]
 #     weights_right = sample_weights[right_indices]
 
+#     current_node = (feature_index, threshold)
+#     print(current_node)
+
 #     left_subtree = build_tree(
 #         X_left, y_left, depth + 1, max_depth, min_samples_split, weights_left)
 #     right_subtree = build_tree(
