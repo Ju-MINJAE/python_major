@@ -56,7 +56,7 @@ def get_metric(model, x_val, y_val, test=False):
         print('Validation Accuracy:', acc)
     else:
         print('Test Accuracy:', acc)
-        return acc, cm
+        # return acc, cm
     sns.heatmap(cm,
                 annot=True,
                 xticklabels=label,
@@ -73,16 +73,89 @@ def get_metric(model, x_val, y_val, test=False):
 # lr_raw = LR(max_iter=1000, random_state=42)
 # lr_raw.fit(x_train_flatten, y_train_data)
 # lr_raw_acc, lr_raw_cm = get_metric(lr_raw, x_valid_flatten, y_valid_data)
+# lr_raw = LR(max_iter=1000, random_state=42, C=0.1)
+# lr_raw.fit(x_train_flatten, y_train_data)
+# lr_raw_acc, lr_raw_cm = get_metric(lr_raw, x_test_flatten, y_test_data)
+
+# lr_raw_train_dict = {}
+# lr_raw_valid_dict = {}
+# for c in [0.001, 0.01, 0.1, 1.0, 10, 100, 300, 500]:
+#     lr = LR(max_iter=1000, random_state=42, C=c)
+#     lr.fit(x_train_flatten, y_train_data)
+#     lr_raw_train_acc, lr_raw_train_cm = get_metric(
+#         lr, x_train_flatten, y_train_data)
+#     lr_raw_train_dict[c] = lr_raw_train_acc
+#     lr_raw_valid_acc, lr_raw_valid_cm = get_metric(
+#         lr, x_valid_flatten, y_valid_data)
+#     lr_raw_valid_dict[c] = lr_raw_valid_acc
+
+# plt.plot(list(map(lambda x: str(x), lr_raw_train_dict.keys())),
+#          lr_raw_train_dict.values(), marker='*', label='raw_train')
+# plt.plot(list(map(lambda x: str(x), lr_raw_valid_dict.keys())),
+#          lr_raw_valid_dict.values(), marker='*', label='raw_valid')
+# plt.title('Logistic Regression Raw Data')
+# plt.xlabel('C')
+# plt.ylabel('Accuracy')
+# plt.axvline(x='0.1', color='red', linestyle='--')
+# plt.legend()
+# plt.show()
 
 # Raw data (DecisionTree)
 # dt_raw = DT(random_state=42)
 # dt_raw.fit(x_train_flatten, y_train_data)
 # dt_raw_acc, dt_raw_cm = get_metric(dt_raw, x_valid_flatten, y_valid_data)
 
+# dt_raw_train_dict = {}
+# dt_raw_valid_dict = {}
+# for max_depth in [3, 5, 7, 10, 15, 20, 30]:
+#     dt = DT(random_state=42, max_depth=max_depth)
+#     dt.fit(x_train_flatten, y_train_data)
+#     dt_raw_train_acc, dt_raw_train_cm = get_metric(
+#         dt, x_train_flatten, y_train_data)
+#     dt_raw_train_dict[max_depth] = dt_raw_train_acc
+#     dt_raw_valid_acc, dt_raw_valid_cm = get_metric(
+#         dt, x_valid_flatten, y_valid_data)
+#     dt_raw_valid_dict[max_depth] = dt_raw_valid_acc
+
+# plt.plot(list(map(lambda x: str(x), dt_raw_train_dict.keys())),
+#          dt_raw_train_dict.values(), marker='*', label='raw_train')
+# plt.plot(list(map(lambda x: str(x), dt_raw_valid_dict.keys())),
+#          dt_raw_valid_dict.values(), marker='*', label='raw_valid')
+# plt.title('Decision Tree Raw Data')
+# plt.xlabel('Max Depth')
+# plt.ylabel('Accuracy')
+# plt.axvline(x='10', color='red', linestyle='--')
+# plt.legend()
+# plt.show()
+
 # Raw data (MLP)
 # mlp_raw = MLP(random_state=42, max_iter=1000)
 # mlp_raw.fit(x_train_flatten, y_train_data)
 # mlp_raw_acc, mlp_raw_cm = get_metric(mlp_raw, x_valid_flatten, y_valid_data)
+
+# mlp_raw_train_dict = {}
+# mlp_raw_valid_dict = {}
+# for hidden_layer_size in [10, 30, 50, 100, 300, 500, 700, 1000]:
+#     mlp = MLP(random_state=42, max_iter=1000,
+#               hidden_layer_sizes=hidden_layer_size)
+#     mlp.fit(x_train_flatten, y_train_data)
+#     mlp_raw_train_acc, mlp_raw_train_cm = get_metric(
+#         mlp, x_train_flatten, y_train_data)
+#     mlp_raw_train_dict[hidden_layer_size] = mlp_raw_train_acc
+#     mlp_raw_valid_acc, mlp_raw_valid_cm = get_metric(
+#         mlp, x_valid_flatten, y_valid_data)
+#     mlp_raw_valid_dict[hidden_layer_size] = mlp_raw_valid_acc
+
+# plt.plot(list(map(lambda x: str(x), mlp_raw_train_dict.keys())),
+#          mlp_raw_train_dict.values(), marker='*', label='raw_train')
+# plt.plot(list(map(lambda x: str(x), mlp_raw_valid_dict.keys())),
+#          mlp_raw_valid_dict.values(), marker='*', label='raw_valid')
+# plt.title('MLP Raw Data')
+# plt.xlabel('Hidden Layer Size')
+# plt.ylabel('Accuracy')
+# plt.axvline(x='300', color='red', linestyle='--')
+# plt.legend()
+# plt.show()
 
 
 # ## Raw Data Test Accuracy
@@ -96,7 +169,6 @@ def get_metric(model, x_val, y_val, test=False):
 # mlp_raw_acc, mlp_raw_cm = get_metric(
 #     mlp_raw, x_test_flatten, y_test_data, test=True)
 # print('')
-
 
 # ## Feature Extraction
 def pixel_average(img):   # 전체 pixel 비율
@@ -118,25 +190,25 @@ def upper_bottom_symmetry(img):  # 위아래 대칭성
 
 
 def bottom_zero_ratio(img):  # 아래쪽 0 비율
-    bottom_quarter = img[-7:, :]
+    bottom_quarter = img[-8:, :]
     bottom_zero = np.mean(bottom_quarter == 0)
     return bottom_zero
 
 
 def upper_zero_ratio(img):  # 위쪽 0 비율
-    upper_quarter = img[:7, :]
+    upper_quarter = img[:8, :]
     upper_zero = np.mean(upper_quarter == 0)
     return upper_zero
 
 
 def left_zero_ratio(img):    # 왼쪽 0 비율
-    left_quarter = img[:, :7]
+    left_quarter = img[:, :8]
     left_zero = np.mean(left_quarter == 0)
     return left_zero
 
 
 def right_zero_ratio(img):    # 오른쪽 0 비율
-    right_quarter = img[:, -7:]
+    right_quarter = img[:, -8:]
     right_zero = np.mean(right_quarter == 0)
     return right_zero
 
@@ -238,6 +310,7 @@ def extract_features(*feature_function):
 
 # ## Feature Selection Procedure
 
+#  # 1. Only Pixel Average
 # feature_functions = [
 #     pixel_average
 # ]
@@ -250,6 +323,8 @@ def extract_features(*feature_function):
 # lr_temp1.fit(X_train_features, y_train_data)
 # lr_acc1, lr_cm1 = get_metric(lr_temp1, X_valid_features, y_valid_data)
 
+
+# # 2. 위아래/왼오 Symmetry 정보 추가 -> sneaker, bag, ankle boot같은 asymmetrical한 class 분류 성능 크게 높아짐
 # feature_functions = [
 #     pixel_average,
 #     left_right_symmetry,
@@ -265,6 +340,8 @@ def extract_features(*feature_function):
 # lr_acc2, lr_cm2 = get_metric(lr_temp2, X_valid_features, y_valid_data)
 
 
+# # 3. 위, 아래, 왼쪽, 오른쪽 pixel의 0 비율 변수 추가 -> 'T-shirt/top', 'Trouser', 'Pullover', 'Dress' 사이의 분류 성능 높아짐
+# # 위/아래/왼/오의 0 비율이 상대적으로 많은 trouser, dress가 분류에 기여했을 것으로 예상 (특히 왼/오에)
 # feature_functions = [
 #     pixel_average,
 #     left_right_symmetry,
@@ -283,6 +360,8 @@ def extract_features(*feature_function):
 # lr_temp3.fit(X_train_features, y_train_data)
 # lr_acc3, lr_cm3 = get_metric(lr_temp3, X_valid_features, y_valid_data)
 
+
+# # 4. 변화량 변수 추가 (티셔츠 문양같이 변화량 큰 클래스 분류 위함)
 # feature_functions = [
 #     pixel_average,
 #     left_right_symmetry,
@@ -303,6 +382,8 @@ def extract_features(*feature_function):
 # lr_temp4.fit(X_train_features, y_train_data)
 # lr_acc4, lr_cm4 = get_metric(lr_temp4, X_valid_features, y_valid_data)
 
+
+# # 5. 모서리 위/모서리 아래 픽셀 평균 정보 추가 (티셔츠, 셔츠 클래스에서 큰 성능 향상 -> 티셔츠가 셔츠보다 모서리 0인 부분 더 많음)
 # feature_functions = [
 #     pixel_average,
 #     left_right_symmetry,
@@ -324,6 +405,9 @@ def extract_features(*feature_function):
 # lr_temp5 = LR(max_iter=10000, random_state=42)
 # lr_temp5.fit(X_train_features, y_train_data)
 # lr_acc5, lr_cm5 = get_metric(lr_temp5, X_valid_features, y_valid_data)
+
+
+# # 6. 중간 위/중간 아래 픽셀 평균 추가 (코트 단추, 문양과 같은 정보 추가 위함 -> 코트 클래스에서 큰 성능 향상)
 
 # feature_functions = [
 #     pixel_average,
@@ -347,6 +431,9 @@ def extract_features(*feature_function):
 # lr_temp6 = LR(max_iter=10000, random_state=42)
 # lr_temp6.fit(X_train_features, y_train_data)
 # lr_acc6, lr_cm6 = get_metric(lr_temp6, X_valid_features, y_valid_data)
+
+
+# # 7. column=5, -5 일 때 픽셀 값이 첫번째로 0이 아닌 픽셀 인덱스 정보 추가 (Dress, Pullover, Shirt와 같은 클래스에서 어깨부분 정보 추가 위함)
 
 # feature_functions = [
 #     pixel_average,
@@ -467,7 +554,7 @@ X_train_features, X_valid_features, X_test_features = extract_features(
 
 
 # Best Param 이용해 test
-# lr = LR(max_iter=10000, random_state=42, C=10)
+# lr = LR(max_iter=1000, random_state=42, C=10)
 # lr.fit(X_train_features, y_train_data)
 # lr_feature_acc, lr_feature_cm = get_metric(
 #     lr, X_test_features, y_test_data, test=True)
