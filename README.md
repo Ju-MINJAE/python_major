@@ -6,9 +6,10 @@
   <img src="https://img.shields.io/badge/scikitlearn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white">
 </p>
 
-# 2022_py
-
-## interpolation.py (Only Numpy)
+<details>
+  <summary>2022_py</summary>
+  
+  ## interpolation.py (Only Numpy)
 
 ### 🚀 기능 (Features)
 
@@ -100,14 +101,12 @@ Given two 5x4 rectangular images **I1** and **I2**, calculate the distortion cau
 최근점 이웃 보간법으로 보간
 
 ![4](https://github.com/user-attachments/assets/b2c965e5-dc0d-4e75-a5ea-2ccf184a2b5a)
+</details>
 
+<details>
+  <summary>2024_py</summary>
 
----
-
-
-# 2024_py
-
-
+  
 ### project1.py
 
 Rogistic Regression 
@@ -195,3 +194,6 @@ Rogistic Regression
 
 ![3](https://github.com/user-attachments/assets/0f4a838b-7b76-4b31-a7b3-4bd3b6a71508)
 ![6](https://github.com/user-attachments/assets/460c836e-1f25-4f51-8a8d-0e2ddaa1d0e3)
+
+</details>
+
